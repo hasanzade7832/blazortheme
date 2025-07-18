@@ -1,0 +1,99 @@
+﻿@namespace BlazorApp3.Layout
+@using MudBlazor
+@inject NavigationManager Nav
+
+<MudAppBar Elevation="1" Color="Color.Primary" Dense="true">
+
+    <!-- لوگو -->
+    <MudText Typo="Typo.h6" Class="mx-3">Kargardoon</MudText>
+
+    <!-- Spacer چپ -->
+    <MudSpacer />
+
+    <!-- آیتم‌های میانی (دسکتاپ – دقیقاً وسط و با فونت درشت) -->
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <div class="d-flex flex-row flex-nowrap justify-center align-center gap-4">
+            @foreach (var itm in _items)
+            {
+                <MudButton Href="@itm.Href"
+                           Variant="@(IsActive(itm.Href) ? Variant.Filled : Variant.Text)"
+                           Color="Color.Inherit"
+                           StartIcon="@itm.Icon"
+                           Size="Size.Large"
+                           Class="mud-typography-h6">
+                    @* فونت بزرگ‌تر *@
+                    @itm.Text
+                </MudButton>
+            }
+        </div>
+    </MudHidden>
+
+    <!-- Spacer راست -->
+    <MudSpacer />
+
+    <!-- سوییچ تم -->
+    <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny
+                                      : Icons.Material.Filled.Brightness2)"
+                   Color="Color.Inherit"
+                   OnClick="@ToggleDarkMode"
+                   Edge="Edge.End" />
+
+    <!-- منوی کاربری دسکتاپ -->
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit">
+            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person" Class="justify-center">
+                پروفایل کاربری
+            </MudMenuItem>
+            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp"
+                         Color="Color.Error" Class="justify-center">
+                خروج
+            </MudMenuItem>
+        </MudMenu>
+    </MudHidden>
+
+    <!-- منوی همبرگری موبایل -->
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudMenu Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit">
+            @foreach (var itm in _items)
+            {
+                <MudMenuItem Href="@itm.Href" Icon="@itm.Icon" Class="justify-center">
+                    @itm.Text
+                </MudMenuItem>
+            }
+            <MudDivider />
+            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person" Class="justify-center">
+                پروفایل کاربری
+            </MudMenuItem>
+            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp"
+                         Color="Color.Error" Class="justify-center">
+                خروج
+            </MudMenuItem>
+        </MudMenu>
+    </MudHidden>
+
+</MudAppBar>
+
+@code {
+    /* پارامترهای دریافتی از لایهٔ اصلی */
+    [Parameter] public bool IsDarkMode { get; set; }
+    [Parameter] public EventCallback ToggleDarkMode { get; set; }
+
+    /* آیتم‌های منو */
+    private readonly NavItem[] _items =
+    {
+        new("/TaskLog",    "تایم‌ترکر",   Icons.Material.Filled.AccessTime),
+        new("/MyTasks",    "تسک‌های من",  Icons.Material.Filled.ListAlt),
+        new("/Attendance", "حضور",        Icons.Material.Filled.Schedule),
+    };
+
+    /* فعال بودن مسیر */
+    bool IsActive(string href) =>
+        string.Equals(Nav.ToBaseRelativePath(Nav.Uri).Trim('/'),
+                      href.Trim('/'), StringComparison.OrdinalIgnoreCase);
+
+    /* خروج */
+    void Logout() => Nav.NavigateTo("/login", true);
+
+    /* مدل داده */
+    private sealed record NavItem(string Href, string Text, string Icon);
+}
