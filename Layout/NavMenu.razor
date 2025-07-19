@@ -2,98 +2,126 @@
 @using MudBlazor
 @inject NavigationManager Nav
 
-<MudAppBar Elevation="1" Color="Color.Primary" Dense="true">
-
-    <!-- لوگو -->
+<MudAppBar Dense="true" Elevation="1" Color="Color.Primary">
     <MudText Typo="Typo.h6" Class="mx-3">Kargardoon</MudText>
-
-    <!-- Spacer چپ -->
     <MudSpacer />
-
-    <!-- آیتم‌های میانی (دسکتاپ – دقیقاً وسط و با فونت درشت) -->
     <MudHidden Breakpoint="Breakpoint.SmAndDown">
-        <div class="d-flex flex-row flex-nowrap justify-center align-center gap-4">
-            @foreach (var itm in _items)
-            {
-                <MudButton Href="@itm.Href"
-                           Variant="@(IsActive(itm.Href) ? Variant.Filled : Variant.Text)"
-                           Color="Color.Inherit"
-                           StartIcon="@itm.Icon"
-                           Size="Size.Large"
-                           Class="mud-typography-h6">
-                    @* فونت بزرگ‌تر *@
-                    @itm.Text
-                </MudButton>
-            }
-        </div>
+        <MudTabs Rounded="true"
+                 @bind-ActivePanelIndex="_activeTab"
+                 Color="Color.Primary"
+                 Centered="false"
+                 Class="main-tabs">
+            <MudTabPanel Text="GENERAL" Icon="@Icons.Material.Filled.Settings" />
+            <MudTabPanel Text="FORMS" Icon="@Icons.Material.Filled.ViewList" />
+            <MudTabPanel Text="APPROVALFLOWS" Icon="@Icons.Material.Filled.ForkRight" />
+            <MudTabPanel Text="PROGRAMS" Icon="@Icons.Material.Filled.PlaylistAddCheck" />
+            <MudTabPanel Text="PROJECTS" Icon="@Icons.Material.Filled.Dns" />
+        </MudTabs>
     </MudHidden>
-
-    <!-- Spacer راست -->
     <MudSpacer />
-
-    <!-- سوییچ تم -->
-    <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny
-                                      : Icons.Material.Filled.Brightness2)"
+    <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny : Icons.Material.Filled.Brightness2)"
                    Color="Color.Inherit"
-                   OnClick="@ToggleDarkMode"
-                   Edge="Edge.End" />
-
-    <!-- منوی کاربری دسکتاپ -->
+                   OnClick="@ToggleDarkMode" />
     <MudHidden Breakpoint="Breakpoint.SmAndDown">
         <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit">
-            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person" Class="justify-center">
-                پروفایل کاربری
-            </MudMenuItem>
-            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp"
-                         Color="Color.Error" Class="justify-center">
-                خروج
-            </MudMenuItem>
+            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error">Logout</MudMenuItem>
         </MudMenu>
     </MudHidden>
-
-    <!-- منوی همبرگری موبایل -->
-    <MudHidden Breakpoint="Breakpoint.MdAndUp">
-        <MudMenu Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit">
-            @foreach (var itm in _items)
-            {
-                <MudMenuItem Href="@itm.Href" Icon="@itm.Icon" Class="justify-center">
-                    @itm.Text
-                </MudMenuItem>
-            }
-            <MudDivider />
-            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person" Class="justify-center">
-                پروفایل کاربری
-            </MudMenuItem>
-            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp"
-                         Color="Color.Error" Class="justify-center">
-                خروج
-            </MudMenuItem>
-        </MudMenu>
-    </MudHidden>
-
 </MudAppBar>
 
+<MudPaper Square="true" Elevation="0" Color="Color.Surface" Class="submenu-pa">
+    <MudContainer MaxWidth="MaxWidth.False" Class="submenu-container d-flex justify-center align-center">
+        <MudGrid GutterSize="2" Class="submenu-grid" Style="width: 70%;">
+            @foreach (var item in GetCurrentTabMenu())
+            {
+                <MudItem xs="12" sm="6" md="2" Class="d-flex flex-column align-center justify-center">
+                    <MudIcon Icon="@item.Icon" Size="Size.Large" Color="Color.Primary" />
+                    <MudText Typo="Typo.subtitle1" Align="Align.Center" Class="submenu-title" Style="margin-top: 8px;">@item.Title</MudText>
+                </MudItem>
+            }
+        </MudGrid>
+        <MudDivider Vertical="true" FlexItem="true" Class="mx-8" Style="opacity:0.1;" />
+        <MudGrid GutterSize="2" Class="submenu-grid" Style="width: 20%;">
+            <MudItem xs="12" Class="d-flex flex-column align-center justify-center">
+                <MudText Typo="Typo.caption" Align="Align.Center" Style="color: #888; font-size: 1.2rem;">
+                    @GetCurrentTabLabel()
+                </MudText>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudPaper>
+
 @code {
-    /* پارامترهای دریافتی از لایهٔ اصلی */
     [Parameter] public bool IsDarkMode { get; set; }
     [Parameter] public EventCallback ToggleDarkMode { get; set; }
+    private int _activeTab;
 
-    /* آیتم‌های منو */
-    private readonly NavItem[] _items =
-    {
-        new("/TaskLog",    "تایم‌ترکر",   Icons.Material.Filled.AccessTime),
-        new("/MyTasks",    "تسک‌های من",  Icons.Material.Filled.ListAlt),
-        new("/Attendance", "حضور",        Icons.Material.Filled.Schedule),
-    };
-
-    /* فعال بودن مسیر */
-    bool IsActive(string href) =>
-        string.Equals(Nav.ToBaseRelativePath(Nav.Uri).Trim('/'),
-                      href.Trim('/'), StringComparison.OrdinalIgnoreCase);
-
-    /* خروج */
     void Logout() => Nav.NavigateTo("/login", true);
 
-    /* مدل داده */
-    private sealed record NavItem(string Href, string Text, string Icon);
+    // ساختار زیرمنوهای هر تب (کاملاً ساخت‌یافته)
+    class SubMenuItem
+    {
+        public string Href { get; set; }
+        public string Title { get; set; }
+        public string Icon { get; set; }
+    }
+
+    private List<SubMenuItem> GetCurrentTabMenu() => _activeTab switch
+    {
+        0 => _generalMenu,
+        1 => _formsMenu,
+        2 => _approvalMenu,
+        3 => _programsMenu,
+        4 => _projectsMenu,
+        _ => new()
+    };
+
+    private string GetCurrentTabLabel() => _activeTab switch
+    {
+        0 => "Setting / User",
+        1 => "Setting / User",
+        2 => "Setting / User",
+        3 => "Setting / User",
+        4 => "Setting / User",
+        _ => ""
+    };
+
+    // فقط یک لیبل زیرمنو برای همه تب‌ها!
+    // آیتم‌های هر تب به صورت ساده، فقط آیکن و عنوان (و به راحتی میشه زیرنویس اضافه کرد)
+    readonly List<SubMenuItem> _generalMenu = new()
+    {
+        new() { Href = "/commands", Title = "Commands", Icon = Icons.Material.Filled.Bolt },
+        new() { Href = "/ribbons", Title = "Ribbons", Icon = Icons.Material.Filled.ViewModule },
+        new() { Href = "/enterprises", Title = "Enterprises", Icon = Icons.Material.Filled.Assignment },
+        new() { Href = "/users", Title = "Users", Icon = Icons.Material.Filled.PersonOutline },
+        new() { Href = "/roles", Title = "Roles", Icon = Icons.Material.Filled.AccountTree },
+        new() { Href = "/staffing", Title = "Staffing", Icon = Icons.Material.Filled.Badge }
+    };
+
+    readonly List<SubMenuItem> _formsMenu = new()
+    {
+        new() { Href = "/forms", Title = "Forms", Icon = Icons.Material.Filled.ViewComfy },
+        new() { Href = "/categories", Title = "Categories", Icon = Icons.Material.Filled.ViewSidebar }
+    };
+
+    readonly List<SubMenuItem> _approvalMenu = new()
+    {
+        new() { Href = "/approvalflows", Title = "ApprovalFlows", Icon = Icons.Material.Filled.DeviceHub }
+    };
+
+    readonly List<SubMenuItem> _programsMenu = new()
+    {
+        new() { Href = "/programtemplate", Title = "ProgramTemplate", Icon = Icons.Material.Filled.PlaylistAdd },
+        new() { Href = "/programtypes", Title = "ProgramTypes", Icon = Icons.Material.Filled.PlaylistAddCheck }
+    };
+
+    readonly List<SubMenuItem> _projectsMenu = new()
+    {
+        new() { Href = "/projects", Title = "Projects", Icon = Icons.Material.Filled.Dns },
+        new() { Href = "/projectsaccess", Title = "ProjectsAccess", Icon = Icons.Material.Filled.AdminPanelSettings },
+        new() { Href = "/odp", Title = "Odp", Icon = Icons.Material.Filled.AdsClick },
+        new() { Href = "/procedures", Title = "Procedures", Icon = Icons.Material.Filled.Article },
+        new() { Href = "/calendars", Title = "Calendars", Icon = Icons.Material.Filled.CalendarMonth }
+    };
 }
