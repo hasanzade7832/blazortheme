@@ -1,18 +1,49 @@
 ﻿@inherits LayoutComponentBase
 @using MudBlazor
 
-<MudThemeProvider Theme="AppThemes.KargardoonTheme" @bind-IsDarkMode="_isDarkMode" />
+<MudThemeProvider Theme="AppThemes.KargardoonTheme"
+                  @bind-IsDarkMode="_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider />
 
-<NavMenu IsDarkMode="_isDarkMode" ToggleDarkMode="ToggleDark" />
+<MudLayout>
 
-<MudMainContent>
-    <div class="pa-4">@Body</div>
-</MudMainContent>
+    <!-- نوار بالا -->
+    <NavMenu DrawerOpen="_drawerOpen"
+             ToggleDrawer="ToggleDrawer"
+             IsDarkMode="_isDarkMode"
+             ToggleDarkMode="ToggleDarkMode" />
+
+    <!-- بدنه -->
+    <MudDrawerContainer>
+
+        <!-- سایدبار: قابل باز و بسته شدن -->
+       <MudDrawer @bind-Open="_drawerOpen"
+           Variant="DrawerVariant.Responsive"
+           Breakpoint="Breakpoint.Sm"
+           Anchor="Anchor.Left"
+           Elevation="1"
+           OverlayOpacity="0"    
+           Style="width:260px;"
+           Class="custom-drawer">
+            <SideBar OnClose="CloseDrawer" />
+        </MudDrawer>
+
+        <!-- محتوای اصلی -->
+        <MudMainContent Class="pa-4">
+            @Body
+        </MudMainContent>
+
+    </MudDrawerContainer>
+
+</MudLayout>
 
 @code {
+    private bool _drawerOpen = true;
     private bool _isDarkMode = false;
-    void ToggleDark() => _isDarkMode = !_isDarkMode;
+
+    void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+    void CloseDrawer() => _drawerOpen = false;
+    void ToggleDarkMode() => _isDarkMode = !_isDarkMode;
 }

@@ -113,56 +113,73 @@ code {
     text-align: start;
 }
 
-/* AppBar Custom */
-.main-appbar-custom {
-    background-color: #ff9800 !important; /* نارنجی خاص */
-    color: #fff !important;
-    height: 64px;
-    box-shadow: 0 2px 8px rgba(200,128,0,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* AppBar سفید و ثابت */
+.fixed-appbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
 }
 
-/* عنوان اپلیکیشن در AppBar */
-.appbar-title-custom {
-    font-weight: bold;
-    font-size: 1.6rem;
-    letter-spacing: 1px;
-    color: #fff !important;
-    display: flex;
-    align-items: center;
+.nav-white {
+    background-color: #ffffff !important;
 }
 
-/* Tabs Custom */
-.main-tabs-custom {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* زمان باز بودن Drawer، کل AppBar 260px به راست می‌رود */
+.appbar-shift {
+    padding-left: 260px !important;
+    transition: padding-left .25s ease;
 }
 
-.submenu-paper-custom {
-    min-height: 48px;
-    background: #fff !important;
-    color: #232323 !important;
-    border-bottom: 1.5px solid #eee;
-    box-shadow: 0 1px 0 0 #e0e0e0;
+/* Drawer: بدون سایه و کاملاً مخفی در حالت بسته */
+.custom-drawer.mud-drawer {
+    top: 0 !important;
+    height: 100vh !important;
+    z-index: 1300;
 }
 
-.submenu-item-custom {
-    min-width: 120px;
-    text-align: center;
-    color: #181818;
-}
-.submenu-title-custom {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #222 !important;
+.custom-drawer.mud-drawer--left.mud-drawer--closed {
+    transform: translateX(-100%) !important;
+    box-shadow: none !important;
+    border-right: none !important;
+    visibility: hidden !important;
 }
 
-.submenu-label-custom {
-    color: #964ebd !important; /* بنفش لطیف */
-    font-size: 1.18rem;
-    font-weight: 500;
+/* -- Badge کوچک بالا‌-راست -- */
+.badge-small .mud-badge-content {
+    font-size: 0.6rem !important;
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+    top: -6px !important;
+    right: -6px !important;
 }
+
+/* جستجوی باریک و آبی: عرض نصف */
+.nav-search {
+    width: 22px !important;
+    font-size: 0.75rem;
+}
+
+    .nav-search .mud-input-root {
+        padding-left: 0 !important;
+    }
+
+    .nav-search .mud-input-slot::placeholder {
+        opacity: .6;
+    }
+    /* خط زیر آبی */
+    .nav-search .mud-input-underline:before {
+        border-bottom-color: rgba(33,150,243,.4) !important;
+    }
+
+    .nav-search .mud-input-underline:after {
+        border-bottom-color: #2196f3 !important;
+    }
+
+    .nav-search input {
+        caret-color: #2196f3;
+    }
+
+

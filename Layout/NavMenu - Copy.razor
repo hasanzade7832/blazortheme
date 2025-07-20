@@ -1,0 +1,239 @@
+﻿@namespace BlazorApp3.Layout
+@using MudBlazor
+@inject NavigationManager Nav
+
+<div>
+
+    <!-- █ هِدِر اصلی █ -->
+    <div style="background-color:var(--mud-palette-primary);min-height:64px;width:100%;">
+        <div class="d-flex flex-row align-center w-100" style="min-height:64px;">
+
+            <!-- لوگو -->
+            <MudText Typo="Typo.h6" Class="ml-4" Style="font-weight:600;color:white;">
+                Kargardoon
+            </MudText>
+
+            <!-- تب‌های اصلی (فقط ≥ md) -->
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <MudTabs Class="flex-grow-1 mx-4"
+                         PanelClass="pa-0"
+                         Color="Color.Primary"
+                         TextColor="Color.White"
+                         Centered="true"
+                         Elevation="0"
+                         Rounded="false"
+                         @bind-ActivePanelIndex="_activeTab">
+                    <MudTabPanel Text="GENERAL" Icon="@Icons.Material.Filled.Settings" />
+                    <MudTabPanel Text="FORMS" Icon="@Icons.Material.Filled.ViewList" />
+                    <MudTabPanel Text="APPROVALFLOWS" Icon="@Icons.Material.Filled.ForkRight" />
+                    <MudTabPanel Text="PROGRAMS" Icon="@Icons.Material.Filled.PlaylistAddCheck" />
+                    <MudTabPanel Text="PROJECTS" Icon="@Icons.Material.Filled.Dns" />
+                </MudTabs>
+            </MudHidden>
+
+            <!-- فاصله‌ساز برای چسباندن آیتم‌های بعدی به راست -->
+            <div class="flex-grow-1"></div>
+
+            <!-- همبرگر (فقط ≤ sm) ـ چسبیده به راست -->
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                               Color="Color.Inherit"
+                               Class="mr-2 ml-auto"
+                               Style="color:white;"
+                               OnClick="@ToggleDrawer" />
+            </MudHidden>
+
+            <!-- آیکون دارک‌مود و منوی پروفایل (فقط ≥ md) -->
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny
+                                                  : Icons.Material.Filled.Brightness2)"
+                               Color="Color.Inherit"
+                               Style="color:white;"
+                               OnClick="@ToggleDarkMode" />
+                <MudMenu Icon="@Icons.Material.Filled.AccountCircle"
+                         Color="Color.Inherit"
+                         Style="color:white;">
+                    <MudMenuItem Href="/profile"
+                                 Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+                    <MudMenuItem OnClick="@Logout"
+                                 Icon="@Icons.Material.Filled.ExitToApp"
+                                 Color="Color.Error">Logout</MudMenuItem>
+                </MudMenu>
+            </MudHidden>
+
+        </div>
+    </div>
+
+    <!-- █ ساب‌تب‌ها (تنها در ≥ md) █ -->
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudTabs Rounded="false"
+                 Elevation="0"
+                 Color="Color.Default"
+                 Centered="true"
+                 PanelClass="pa-0"
+                 Class="d-flex justify-center"
+                 @bind-ActivePanelIndex="_activeSubTab">
+            @foreach (var item in GetCurrentSubTabs())
+            {
+                <MudTabPanel Text="@item.Title" Icon="@item.Icon" />
+            }
+        </MudTabs>
+    </MudHidden>
+
+    <!-- █ دراور موبایل █ -->
+    <MudDrawer Variant="DrawerVariant.Temporary"
+               Anchor="Anchor.Right"
+               Elevation="1"
+               Color="Color.Surface"
+               @bind-Open="_drawerOpen">
+
+        <MudList T="string">
+
+            <!-- دارک/لایت -->
+            <MudListItem Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny
+                                             : Icons.Material.Filled.Brightness2)"
+                         Text="@(IsDarkMode ? "Light mode" : "Dark mode")"
+                         OnClick="@ToggleDarkMode" />
+
+            <!-- پروفایل -->
+            <MudListItem Icon="@Icons.Material.Filled.AccountCircle" Text="Account" Expanded>
+                <NestedList>
+                    <MudListItem Icon="@Icons.Material.Filled.Person" Href="/profile">Profile</MudListItem>
+                    <MudListItem Icon="@Icons.Material.Filled.ExitToApp"
+                                 Color="Color.Error"
+                                 OnClick="@Logout">Logout</MudListItem>
+                </NestedList>
+            </MudListItem>
+
+            <MudDivider />
+
+            <!-- GENERAL -->
+            <MudListItem Icon="@Icons.Material.Filled.Settings" Text="GENERAL" Expanded>
+                <NestedList>
+                    @foreach (var item in _generalMenu)
+                    {
+                        <MudListItem Icon="@item.Icon" Href="@item.Href">@item.Title</MudListItem>
+                    }
+                </NestedList>
+            </MudListItem>
+
+            <!-- FORMS -->
+            <MudListItem Icon="@Icons.Material.Filled.ViewList" Text="FORMS" @bind-Expanded="_formsExpanded">
+                <NestedList>
+                    @foreach (var item in _formsMenu)
+                    {
+                        <MudListItem Icon="@item.Icon" Href="@item.Href">@item.Title</MudListItem>
+                    }
+                </NestedList>
+            </MudListItem>
+
+            <!-- APPROVALFLOWS -->
+            <MudListItem Icon="@Icons.Material.Filled.ForkRight" Text="APPROVALFLOWS" @bind-Expanded="_approvalExpanded">
+                <NestedList>
+                    @foreach (var item in _approvalMenu)
+                    {
+                        <MudListItem Icon="@item.Icon" Href="@item.Href">@item.Title</MudListItem>
+                    }
+                </NestedList>
+            </MudListItem>
+
+            <!-- PROGRAMS -->
+            <MudListItem Icon="@Icons.Material.Filled.PlaylistAddCheck" Text="PROGRAMS" @bind-Expanded="_programsExpanded">
+                <NestedList>
+                    @foreach (var item in _programsMenu)
+                    {
+                        <MudListItem Icon="@item.Icon" Href="@item.Href">@item.Title</MudListItem>
+                    }
+                </NestedList>
+            </MudListItem>
+
+            <!-- PROJECTS -->
+            <MudListItem Icon="@Icons.Material.Filled.Dns" Text="PROJECTS" @bind-Expanded="_projectsExpanded">
+                <NestedList>
+                    @foreach (var item in _projectsMenu)
+                    {
+                        <MudListItem Icon="@item.Icon" Href="@item.Href">@item.Title</MudListItem>
+                    }
+                </NestedList>
+            </MudListItem>
+        </MudList>
+    </MudDrawer>
+
+</div>
+
+@code {
+    /* دارک/لایت */
+    [Parameter] public bool IsDarkMode { get; set; }
+    [Parameter] public EventCallback ToggleDarkMode { get; set; }
+
+    /* تب‌های اصلی و فرعی */
+    private int _activeTab = 0;
+    private int _activeSubTab = 0;
+
+    /* وضعیت دراور و اکسپنشِن‌ها */
+    private bool _drawerOpen;
+    private bool _formsExpanded = false;
+    private bool _approvalExpanded = false;
+    private bool _programsExpanded = false;
+    private bool _projectsExpanded = false;
+
+    /* رویداد‌ها */
+    void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+    void Logout() => Nav.NavigateTo("/login", true);
+
+    /* مدل آیتم‌های ساب‌تب */
+    class SubTabItem
+    {
+        public string Title { get; set; }
+        public string Icon { get; set; }
+        public string Href { get; set; }
+    }
+
+    /* جدول نگاشت تب → ساب‌تب‌ها */
+    private List<SubTabItem> GetCurrentSubTabs() => _activeTab switch
+    {
+        0 => _generalMenu,
+        1 => _formsMenu,
+        2 => _approvalMenu,
+        3 => _programsMenu,
+        4 => _projectsMenu,
+        _ => new()
+    };
+
+    /* فهرست‌ها */
+    readonly List<SubTabItem> _generalMenu = new()
+    {
+        new() { Title = "Commands",    Icon = Icons.Material.Filled.Bolt,             Href = "/commands"     },
+        new() { Title = "Ribbons",     Icon = Icons.Material.Filled.ViewModule,       Href = "/ribbons"      },
+        new() { Title = "Enterprises", Icon = Icons.Material.Filled.Assignment,       Href = "/enterprises"  },
+        new() { Title = "Users",       Icon = Icons.Material.Filled.PersonOutline,    Href = "/users"        },
+        new() { Title = "Roles",       Icon = Icons.Material.Filled.AccountTree,      Href = "/roles"        },
+        new() { Title = "Staffing",    Icon = Icons.Material.Filled.Badge,            Href = "/staffing"     }
+    };
+
+    readonly List<SubTabItem> _formsMenu = new()
+    {
+        new() { Title = "Forms",      Icon = Icons.Material.Filled.ViewComfy,     Href = "/forms"      },
+        new() { Title = "Categories", Icon = Icons.Material.Filled.ViewSidebar,   Href = "/categories" }
+    };
+
+    readonly List<SubTabItem> _approvalMenu = new()
+    {
+        new() { Title = "ApprovalFlows", Icon = Icons.Material.Filled.DeviceHub,  Href = "/approvalflows" }
+    };
+
+    readonly List<SubTabItem> _programsMenu = new()
+    {
+        new() { Title = "ProgramTemplate", Icon = Icons.Material.Filled.PlaylistAdd,      Href = "/programtemplate" },
+        new() { Title = "ProgramTypes",    Icon = Icons.Material.Filled.PlaylistAddCheck, Href = "/programtypes"    }
+    };
+
+    readonly List<SubTabItem> _projectsMenu = new()
+    {
+        new() { Title = "Projects",       Icon = Icons.Material.Filled.Dns,               Href = "/projects"         },
+        new() { Title = "ProjectsAccess", Icon = Icons.Material.Filled.AdminPanelSettings,Href = "/projectsaccess"   },
+        new() { Title = "ODP",            Icon = Icons.Material.Filled.AdsClick,          Href = "/odp"              },
+        new() { Title = "Procedures",     Icon = Icons.Material.Filled.Article,           Href = "/procedures"       },
+        new() { Title = "Calendars",      Icon = Icons.Material.Filled.CalendarMonth,     Href = "/calendars"        }
+    };
+}

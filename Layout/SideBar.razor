@@ -1,0 +1,84 @@
+﻿@using MudBlazor
+@using Microsoft.AspNetCore.Components
+
+<MudPaper Class="mud-height-full d-flex flex-column" Elevation="0">
+
+    <!-- دکمه‌ی بستن -->
+    <MudDrawerHeader Class="d-flex justify-end p-2">
+        <MudIconButton Icon="@Icons.Material.Filled.Close"
+                       Size="Size.Small"
+                       Color="Color.Info"
+                       DisableRipple="true"
+                       OnClick="@(() => OnClose.InvokeAsync())" />
+    </MudDrawerHeader>
+
+    <!-- منوی ناوبری -->
+    <MudNavMenu Dense="true" Class="flex-grow-1">
+
+        <!-- Meetings -->
+        <MudNavGroup Icon="@Icons.Material.Filled.Folder"
+                     Title="Meetings"
+                     Expanded="true">
+            <MudNavLink Href="/meetings/schedule"
+                        Icon="@Icons.Material.Filled.Schedule">
+                Schedule
+            </MudNavLink>
+            <MudNavLink Href="/meetings/minutes"
+                        Icon="@Icons.Material.Filled.Note">
+                Minutes
+            </MudNavLink>
+        </MudNavGroup>
+
+        <!-- Letters -->
+        <MudNavGroup Icon="@Icons.Material.Filled.Mail"
+                     Title="Letters"
+                     Expanded="true">
+            <MudNavLink Href="/letters/inbox"
+                        Icon="@Icons.Material.Filled.Inbox">
+                Inbox
+            </MudNavLink>
+            <MudNavLink Href="/letters/sent"
+                        Icon="@Icons.Material.Filled.Send">
+                Sent
+            </MudNavLink>
+            <MudNavLink Href="/letters/drafts"
+                        Icon="@Icons.Material.Filled.Drafts">
+                Drafts
+            </MudNavLink>
+        </MudNavGroup>
+
+        <!-- Issues -->
+        <MudNavGroup Icon="@Icons.Material.Filled.BugReport"
+                     Title="Issues"
+                     Expanded="true">
+            <MudNavLink Href="/issues/open"
+                        Icon="@Icons.Material.Filled.ErrorOutline">
+                Open
+            </MudNavLink>
+            <MudNavLink Href="/issues/closed"
+                        Icon="@Icons.Material.Filled.CheckCircleOutline">
+                Closed
+            </MudNavLink>
+        </MudNavGroup>
+
+        <!-- Orders -->
+        <MudNavGroup Icon="@Icons.Material.Filled.ShoppingCart"
+                     Title="Orders"
+                     Expanded="true">
+            <MudNavLink Href="/orders/new"
+                        Icon="@Icons.Material.Filled.AddShoppingCart">
+                New Orders
+            </MudNavLink>
+            <MudNavLink Href="/orders/history"
+                        Icon="@Icons.Material.Filled.History">
+                History
+            </MudNavLink>
+        </MudNavGroup>
+
+    </MudNavMenu>
+</MudPaper>
+
+@code {
+    /// <summary>هنگام کلیک روی دکمه‌ی بستن فراخوانی می‌شود.</summary>
+    [Parameter] public EventCallback OnClose { get; set; }
+}

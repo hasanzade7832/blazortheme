@@ -1,127 +1,83 @@
-﻿@namespace BlazorApp3.Layout
-@using MudBlazor
-@inject NavigationManager Nav
+﻿@using MudBlazor
+@using Microsoft.AspNetCore.Components
 
-<MudAppBar Dense="true" Elevation="1" Color="Color.Primary">
-    <MudText Typo="Typo.h6" Class="mx-3">Kargardoon</MudText>
-    <MudSpacer />
-    <MudHidden Breakpoint="Breakpoint.SmAndDown">
-        <MudTabs Rounded="true"
-                 @bind-ActivePanelIndex="_activeTab"
-                 Color="Color.Primary"
-                 Centered="false"
-                 Class="main-tabs">
-            <MudTabPanel Text="GENERAL" Icon="@Icons.Material.Filled.Settings" />
-            <MudTabPanel Text="FORMS" Icon="@Icons.Material.Filled.ViewList" />
-            <MudTabPanel Text="APPROVALFLOWS" Icon="@Icons.Material.Filled.ForkRight" />
-            <MudTabPanel Text="PROGRAMS" Icon="@Icons.Material.Filled.PlaylistAddCheck" />
-            <MudTabPanel Text="PROJECTS" Icon="@Icons.Material.Filled.Dns" />
-        </MudTabs>
-    </MudHidden>
-    <MudSpacer />
-    <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny : Icons.Material.Filled.Brightness2)"
-                   Color="Color.Inherit"
-                   OnClick="@ToggleDarkMode" />
-    <MudHidden Breakpoint="Breakpoint.SmAndDown">
-        <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit">
-            <MudMenuItem Href="/profile" Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
-            <MudMenuItem OnClick="@Logout" Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error">Logout</MudMenuItem>
-        </MudMenu>
-    </MudHidden>
-</MudAppBar>
+<MudAppBar Dense="true"
+           Elevation="0"
+           Class="@($"fixed-appbar nav-white {(DrawerOpen ? "appbar-shift" : "")}")">
 
-<MudPaper Square="true" Elevation="0" Color="Color.Surface" Class="submenu-pa">
-    <MudContainer MaxWidth="MaxWidth.False" Class="submenu-container d-flex justify-center align-center">
-        <MudGrid GutterSize="2" Class="submenu-grid" Style="width: 70%;">
-            @foreach (var item in GetCurrentTabMenu())
-            {
-                <MudItem xs="12" sm="6" md="2" Class="d-flex flex-column align-center justify-center">
-                    <MudIcon Icon="@item.Icon" Size="Size.Large" Color="Color.Primary" />
-                    <MudText Typo="Typo.subtitle1" Align="Align.Center" Class="submenu-title" Style="margin-top: 8px;">@item.Title</MudText>
-                </MudItem>
-            }
-        </MudGrid>
-        <MudDivider Vertical="true" FlexItem="true" Class="mx-8" Style="opacity:0.1;" />
-        <MudGrid GutterSize="2" Class="submenu-grid" Style="width: 20%;">
-            <MudItem xs="12" Class="d-flex flex-column align-center justify-center">
-                <MudText Typo="Typo.caption" Align="Align.Center" Style="color: #888; font-size: 1.2rem;">
-                    @GetCurrentTabLabel()
-                </MudText>
-            </MudItem>
-        </MudGrid>
-    </MudContainer>
-</MudPaper>
-
-@code {
-    [Parameter] public bool IsDarkMode { get; set; }
-    [Parameter] public EventCallback ToggleDarkMode { get; set; }
-    private int _activeTab;
-
-    void Logout() => Nav.NavigateTo("/login", true);
-
-    // ساختار زیرمنوهای هر تب (کاملاً ساخت‌یافته)
-    class SubMenuItem
+    @* Only show hamburger when drawer is closed *@
+    @if (!DrawerOpen)
     {
-        public string Href { get; set; }
-        public string Title { get; set; }
-        public string Icon { get; set; }
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                       Edge="Edge.Start"
+                       Color="Color.Info"
+                       DisableRipple="true"
+                       OnClick="ToggleDrawer" />
     }
 
-    private List<SubMenuItem> GetCurrentTabMenu() => _activeTab switch
-    {
-        0 => _generalMenu,
-        1 => _formsMenu,
-        2 => _approvalMenu,
-        3 => _programsMenu,
-        4 => _projectsMenu,
-        _ => new()
-    };
+    <MudBadge Content="33"
+              Color="Color.Info"
+              Class="mx-1"
+              BadgeClass="badge-small">
+        <MudIconButton Icon="@Icons.Material.Filled.Notifications"
+                       Color="Color.Info"
+                       DisableRipple="true"
+                       OnClick="ShowNotifications" />
+    </MudBadge>
 
-    private string GetCurrentTabLabel() => _activeTab switch
-    {
-        0 => "Setting / User",
-        1 => "Setting / User",
-        2 => "Setting / User",
-        3 => "Setting / User",
-        4 => "Setting / User",
-        _ => ""
-    };
+    <MudIconButton Icon="@Icons.Material.Filled.BarChart"
+                   Color="Color.Info"
+                   DisableRipple="true"
+                   OnClick="ShowCharts" />
 
-    // فقط یک لیبل زیرمنو برای همه تب‌ها!
-    // آیتم‌های هر تب به صورت ساده، فقط آیکن و عنوان (و به راحتی میشه زیرنویس اضافه کرد)
-    readonly List<SubMenuItem> _generalMenu = new()
-    {
-        new() { Href = "/commands", Title = "Commands", Icon = Icons.Material.Filled.Bolt },
-        new() { Href = "/ribbons", Title = "Ribbons", Icon = Icons.Material.Filled.ViewModule },
-        new() { Href = "/enterprises", Title = "Enterprises", Icon = Icons.Material.Filled.Assignment },
-        new() { Href = "/users", Title = "Users", Icon = Icons.Material.Filled.PersonOutline },
-        new() { Href = "/roles", Title = "Roles", Icon = Icons.Material.Filled.AccountTree },
-        new() { Href = "/staffing", Title = "Staffing", Icon = Icons.Material.Filled.Badge }
-    };
+    <MudSpacer />
 
-    readonly List<SubMenuItem> _formsMenu = new()
-    {
-        new() { Href = "/forms", Title = "Forms", Icon = Icons.Material.Filled.ViewComfy },
-        new() { Href = "/categories", Title = "Categories", Icon = Icons.Material.Filled.ViewSidebar }
-    };
+    <MudTextField @bind-Value="_search"
+                  Placeholder="Search"
+                  Adornment="Adornment.Start"
+                  AdornmentIcon="@Icons.Material.Filled.Search"
+                  Variant="Variant.Text"
+                  Margin="Margin.Dense"
+                  Size="Size.Small"
+                  Color="Color.Info"
+                  Class="nav-search mx-2" />
 
-    readonly List<SubMenuItem> _approvalMenu = new()
-    {
-        new() { Href = "/approvalflows", Title = "ApprovalFlows", Icon = Icons.Material.Filled.DeviceHub }
-    };
+    <MudIconButton Icon="@(IsDarkMode ? Icons.Material.Filled.WbSunny : Icons.Material.Filled.DarkMode)"
+                   Color="Color.Info"
+                   DisableRipple="true"
+                   OnClick="ToggleDarkMode" />
 
-    readonly List<SubMenuItem> _programsMenu = new()
-    {
-        new() { Href = "/programtemplate", Title = "ProgramTemplate", Icon = Icons.Material.Filled.PlaylistAdd },
-        new() { Href = "/programtypes", Title = "ProgramTypes", Icon = Icons.Material.Filled.PlaylistAddCheck }
-    };
+    <MudIconButton Icon="@Icons.Material.Filled.Settings"
+                   Color="Color.Info"
+                   DisableRipple="true"
+                   OnClick="ShowSettings" />
 
-    readonly List<SubMenuItem> _projectsMenu = new()
-    {
-        new() { Href = "/projects", Title = "Projects", Icon = Icons.Material.Filled.Dns },
-        new() { Href = "/projectsaccess", Title = "ProjectsAccess", Icon = Icons.Material.Filled.AdminPanelSettings },
-        new() { Href = "/odp", Title = "Odp", Icon = Icons.Material.Filled.AdsClick },
-        new() { Href = "/procedures", Title = "Procedures", Icon = Icons.Material.Filled.Article },
-        new() { Href = "/calendars", Title = "Calendars", Icon = Icons.Material.Filled.CalendarMonth }
-    };
+    <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Info">
+        <MudMenuItem Icon="@Icons.Material.Filled.Person"    OnClick="GoProfile">Profile</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Filled.ExitToApp" OnClick="Logout">Logout</MudMenuItem>
+    </MudMenu>
+</MudAppBar>
+
+@code {
+    [Inject] NavigationManager Nav { get; set; }
+
+    /// <summary>
+    /// Indicates whether the drawer is currently open.
+    /// </summary>
+    [Parameter] public bool DrawerOpen { get; set; }
+    /// <summary>
+    /// Toggling callback from the parent layout.
+    /// </summary>
+    [Parameter] public EventCallback ToggleDrawer { get; set; }
+
+    [Parameter] public bool IsDarkMode { get; set; }
+    [Parameter] public EventCallback ToggleDarkMode { get; set; }
+
+    private string _search;
+
+    void ShowNotifications() => Nav.NavigateTo("/notifications");
+    void ShowCharts()        => Nav.NavigateTo("/charts");
+    void ShowSettings()      => Nav.NavigateTo("/settings");
+    void GoProfile()         => Nav.NavigateTo("/profile");
+    void Logout()            => Nav.NavigateTo("/login", true);
 }
