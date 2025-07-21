@@ -1,84 +1,58 @@
 ﻿@using MudBlazor
 @using Microsoft.AspNetCore.Components
 
-<MudPaper Class="mud-height-full d-flex flex-column" Elevation="0">
+<MudDrawer @bind-Open="Open"
+           ClipMode="DrawerClipMode.Always"
+           Class="sidebar-drawer">
 
-    <!-- دکمه‌ی بستن -->
-    <MudDrawerHeader Class="d-flex justify-end p-2">
-        <MudIconButton Icon="@Icons.Material.Filled.Close"
-                       Size="Size.Small"
-                       Color="Color.Info"
-                       DisableRipple="true"
-                       OnClick="@(() => OnClose.InvokeAsync())" />
-    </MudDrawerHeader>
+    <MudPaper Class="h-100 d-flex flex-column" Elevation="0">
 
-    <!-- منوی ناوبری -->
-    <MudNavMenu Dense="true" Class="flex-grow-1">
+        <MudDrawerHeader Class="drawer-header">
+            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                           Color="Color.Dark"
+                           Size="Size.Small"
+                           DisableRipple="true"
+                           OnClick="Close" />
+        </MudDrawerHeader>
 
-        <!-- Meetings -->
-        <MudNavGroup Icon="@Icons.Material.Filled.Folder"
-                     Title="Meetings"
-                     Expanded="true">
-            <MudNavLink Href="/meetings/schedule"
-                        Icon="@Icons.Material.Filled.Schedule">
-                Schedule
-            </MudNavLink>
-            <MudNavLink Href="/meetings/minutes"
-                        Icon="@Icons.Material.Filled.Note">
-                Minutes
-            </MudNavLink>
-        </MudNavGroup>
+        <MudNavMenu Dense="true" Class="sidebar-menu">
 
-        <!-- Letters -->
-        <MudNavGroup Icon="@Icons.Material.Filled.Mail"
-                     Title="Letters"
-                     Expanded="true">
-            <MudNavLink Href="/letters/inbox"
-                        Icon="@Icons.Material.Filled.Inbox">
-                Inbox
-            </MudNavLink>
-            <MudNavLink Href="/letters/sent"
-                        Icon="@Icons.Material.Filled.Send">
-                Sent
-            </MudNavLink>
-            <MudNavLink Href="/letters/drafts"
-                        Icon="@Icons.Material.Filled.Drafts">
-                Drafts
-            </MudNavLink>
-        </MudNavGroup>
+            <MudNavGroup Title="Meetings" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning" Expanded="true">
+                <MudNavLink Href="/meetings/schedule" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Schedule</MudNavLink>
+                <MudNavLink Href="/meetings/minutes" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Minutes</MudNavLink>
+            </MudNavGroup>
 
-        <!-- Issues -->
-        <MudNavGroup Icon="@Icons.Material.Filled.BugReport"
-                     Title="Issues"
-                     Expanded="true">
-            <MudNavLink Href="/issues/open"
-                        Icon="@Icons.Material.Filled.ErrorOutline">
-                Open
-            </MudNavLink>
-            <MudNavLink Href="/issues/closed"
-                        Icon="@Icons.Material.Filled.CheckCircleOutline">
-                Closed
-            </MudNavLink>
-        </MudNavGroup>
+            <MudNavGroup Title="Letters" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning" Expanded="true">
+                <MudNavLink Href="/letters/inbox" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Inbox</MudNavLink>
+                <MudNavLink Href="/letters/sent" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Sent</MudNavLink>
+                <MudNavLink Href="/letters/drafts" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Drafts</MudNavLink>
+            </MudNavGroup>
 
-        <!-- Orders -->
-        <MudNavGroup Icon="@Icons.Material.Filled.ShoppingCart"
-                     Title="Orders"
-                     Expanded="true">
-            <MudNavLink Href="/orders/new"
-                        Icon="@Icons.Material.Filled.AddShoppingCart">
-                New Orders
-            </MudNavLink>
-            <MudNavLink Href="/orders/history"
-                        Icon="@Icons.Material.Filled.History">
-                History
-            </MudNavLink>
-        </MudNavGroup>
+            <MudNavGroup Title="Issues" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning" Expanded="true">
+                <MudNavLink Href="/issues/open" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Open</MudNavLink>
+                <MudNavLink Href="/issues/closed" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">Closed</MudNavLink>
+            </MudNavGroup>
 
-    </MudNavMenu>
-</MudPaper>
+            <MudNavGroup Title="Orders" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning" Expanded="true">
+                <MudNavLink Href="/orders/new" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">New Orders</MudNavLink>
+                <MudNavLink Href="/orders/history" Icon="@Icons.Material.Filled.Folder" IconColor="Color.Warning">History</MudNavLink>
+            </MudNavGroup>
+
+        </MudNavMenu>
+
+    </MudPaper>
+</MudDrawer>
 
 @code {
-    /// <summary>هنگام کلیک روی دکمه‌ی بستن فراخوانی می‌شود.</summary>
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
+
+    private async Task Close()
+    {
+        if (OpenChanged.HasDelegate)
+            await OpenChanged.InvokeAsync(false);
+        if (OnClose.HasDelegate)
+            await OnClose.InvokeAsync();
+    }
 }

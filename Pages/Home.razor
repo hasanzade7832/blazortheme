@@ -1,10 +1,32 @@
 ﻿@page "/"
 @using MudBlazor
 
+<PageTitle>Home</PageTitle>
+
+<MudContainer DisableMaxWidth="true" Class="pa-6">
+
+    <!-- جدول پویا (دلخواه) -->
+    <DynamicTable />
+
+    <MudDivider Class="my-6" />
+
+    <!-- دو PieChart -->
+    <div class="d-flex flex-row gap-6 justify-center align-center">
+        <PieChart Data="@pie1Data" Labels="@pie1Labels" />
+        <PieChart Data="@pie2Data" Labels="@pie2Labels" />
+    </div>
+
+    <MudDivider Class="my-6" />
+
+    <!-- ویجت‌ها (همان چینش ۳-۱-۳) -->
+    <Dashboard />
+</MudContainer>
+
 @code {
-    // دریافت وضعیت تم از لِی‌اوت
-    [CascadingParameter(Name = "IsDarkMode")]
-    public bool IsDarkMode { get; set; }
+    /* دادهٔ نمونهٔ PieChart */
+    double[] pie1Data = { 724, 1560, 234 };
+    string[] pie1Labels = { "In Progress", "Completed", "Started" };
+
+    double[] pie2Data = { 514, 1211, 351 };
+    string[] pie2Labels = { "Delayed Inprogress", "Delayed Completed", "Delayed Started" };
 }
-
-

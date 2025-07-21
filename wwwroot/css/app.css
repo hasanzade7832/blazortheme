@@ -1,5 +1,4 @@
-﻿/* --- فونت و ریشه --- */
-html, body {
+﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -7,7 +6,6 @@ h1:focus {
     outline: none;
 }
 
-/* --- لینک و دکمه‌ها --- */
 a, .btn-link {
     color: #0071c1;
 }
@@ -18,11 +16,14 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-/* --- محتوا و پیام خطا --- */
 .content {
     padding-top: 1.1rem;
 }
@@ -39,7 +40,6 @@ a, .btn-link {
     color: red;
 }
 
-/* --- Blazor error UI --- */
 #blazor-error-ui {
     color-scheme: light only;
     background: lightyellow;
@@ -53,22 +53,24 @@ a, .btn-link {
     width: 100%;
     z-index: 1000;
 }
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
 .blazor-error-boundary {
-    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1o=) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
     color: white;
 }
-.blazor-error-boundary::after {
-    content: "An error has occurred."
-}
 
-/* --- Progress Ring --- */
+    .blazor-error-boundary::after {
+        content: "An error has occurred.";
+    }
+
 .loading-progress {
     position: relative;
     display: block;
@@ -76,44 +78,47 @@ a, .btn-link {
     height: 8rem;
     margin: 20vh auto 1rem auto;
 }
-.loading-progress circle {
-    fill: none;
-    stroke: #e0e0e0;
-    stroke-width: 0.6rem;
-    transform-origin: 50% 50%;
-    transform: rotate(-90deg);
-}
-.loading-progress circle:last-child {
-    stroke: #1b6ec2;
-    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
-    transition: stroke-dasharray 0.05s ease-in-out;
-}
+
+    .loading-progress circle {
+        fill: none;
+        stroke: #e0e0e0;
+        stroke-width: 0.6rem;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+    }
+
+        .loading-progress circle:last-child {
+            stroke: #1b6ec2;
+            stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+            transition: stroke-dasharray 0.05s ease-in-out;
+        }
+
 .loading-progress-text {
     position: absolute;
     text-align: center;
     font-weight: bold;
     inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
 }
-.loading-progress-text:after {
-    content: var(--blazor-load-percentage-text, "Loading");
-}
+
+    .loading-progress-text:after {
+        content: var(--blazor-load-percentage-text, "Loading");
+    }
 
 code {
     color: #c02d76;
 }
 
-/* --- فرم فیلدها --- */
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
     color: var(--bs-secondary-color);
     text-align: end;
 }
+
 .form-floating > .form-control-plaintext:focus::placeholder,
 .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
 
-/* AppBar سفید و ثابت */
 .fixed-appbar {
     position: fixed;
     top: 0;
@@ -126,13 +131,11 @@ code {
     background-color: #ffffff !important;
 }
 
-/* زمان باز بودن Drawer، کل AppBar 260px به راست می‌رود */
 .appbar-shift {
     padding-left: 260px !important;
     transition: padding-left .25s ease;
 }
 
-/* Drawer: بدون سایه و کاملاً مخفی در حالت بسته */
 .custom-drawer.mud-drawer {
     top: 0 !important;
     height: 100vh !important;
@@ -146,7 +149,6 @@ code {
     visibility: hidden !important;
 }
 
-/* -- Badge کوچک بالا‌-راست -- */
 .badge-small .mud-badge-content {
     font-size: 0.6rem !important;
     width: 16px !important;
@@ -156,7 +158,6 @@ code {
     right: -6px !important;
 }
 
-/* جستجوی باریک و آبی: عرض نصف */
 .nav-search {
     width: 22px !important;
     font-size: 0.75rem;
@@ -169,7 +170,7 @@ code {
     .nav-search .mud-input-slot::placeholder {
         opacity: .6;
     }
-    /* خط زیر آبی */
+
     .nav-search .mud-input-underline:before {
         border-bottom-color: rgba(33,150,243,.4) !important;
     }
@@ -182,4 +183,170 @@ code {
         caret-color: #2196f3;
     }
 
+.rotate-270 {
+    transform: rotate(-90deg);
+}
 
+.tree-table td,
+.tree-table th {
+    font-weight: 600;
+}
+
+.rotate-270 {
+    transform: rotate(-90deg);
+    transition: transform .2s;
+}
+
+.custom-bg {
+    background: #fcfcfe;
+    border-radius: 12px;
+}
+
+.widget-card {
+    background: #fff;
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+    .widget-card:hover {
+        box-shadow: 0 6px 24px rgba(0,0,0,.15);
+        transform: translateY(-2px);
+    }
+
+.clickable {
+    cursor: pointer;
+}
+
+.dashboard-root {
+    background: #f6f7fb;
+    border-radius: 12px;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.dashboard-sidebar {
+    flex: 0 0 220px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    transition: box-shadow .2s ease;
+}
+
+    .widget-box:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+
+.sidebar .mud-icon-root {
+    color: #FFC107 !important;
+}
+
+.sidebar-drawer {
+}
+
+    .sidebar-drawer .mud-drawer-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: inherit;
+    }
+
+.drawer-header-fix {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000 !important;
+    background-color: inherit;
+}
+
+.sidebar-drawer .mud-nav-menu {
+    padding-top: 48px;
+}
+
+.sidebar-nav-spacing {
+    padding-top: 3.5rem;
+}
+
+.drawer-close-header {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    z-index: 3000 !important;
+    background-color: inherit;
+    pointer-events: none;
+}
+
+    .drawer-close-header .mud-icon-button {
+        pointer-events: auto;
+    }
+
+.close-header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background-color: inherit;
+}
+
+:root {
+    --appbar-height: 48px;
+}
+
+.custom-drawer.mud-drawer {
+    height: 100vh !important;
+    z-index: 1300;
+    top: var(--appbar-height) !important;
+    height: calc(100vh - var(--appbar-height)) !important;
+}
+
+/* -------------- تکرار بخش اول بطور کامل (بدون کامنت) -------------- */
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+
+:root {
+    --appbar-height: 48px;
+}
+
+aside.mud-drawer.sidebar-drawer {
+    position: fixed; /* مطمئن شو که به Viewport چسبیده */
+    top: var(--appbar-height) !important;
+    bottom: 0 !important; /* پرکن تا کف صفحه */
+    height: calc(100dvh - var(--appbar-height)) !important;
+    z-index: 1300 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: inherit;
+    padding: .5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidebar-menu {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-top: .25rem;
+}

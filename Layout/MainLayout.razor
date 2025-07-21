@@ -9,29 +9,21 @@
 
 <MudLayout>
 
-    <!-- نوار بالا -->
+    <!-- AppBar -->
     <NavMenu DrawerOpen="_drawerOpen"
              ToggleDrawer="ToggleDrawer"
              IsDarkMode="_isDarkMode"
              ToggleDarkMode="ToggleDarkMode" />
 
-    <!-- بدنه -->
+    <!-- Container -->
     <MudDrawerContainer>
 
-        <!-- سایدبار: قابل باز و بسته شدن -->
-       <MudDrawer @bind-Open="_drawerOpen"
-           Variant="DrawerVariant.Responsive"
-           Breakpoint="Breakpoint.Sm"
-           Anchor="Anchor.Left"
-           Elevation="1"
-           OverlayOpacity="0"    
-           Style="width:260px;"
-           Class="custom-drawer">
-            <SideBar OnClose="CloseDrawer" />
-        </MudDrawer>
-
-        <!-- محتوای اصلی -->
-        <MudMainContent Class="pa-4">
+        <!-- Sidebar Drawer (Single Drawer) -->
+        <SideBar @bind-Open="_drawerOpen"
+                 OnClose="CloseDrawer"
+                  />
+        <!-- Main Content -->
+        <MudMainContent Class="@(_drawerOpen ? "appbar-shift pa-4" : "pa-4")">
             @Body
         </MudMainContent>
 

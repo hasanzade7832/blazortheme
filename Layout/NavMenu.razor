@@ -5,7 +5,7 @@
            Elevation="0"
            Class="@($"fixed-appbar nav-white {(DrawerOpen ? "appbar-shift" : "")}")">
 
-    @* Only show hamburger when drawer is closed *@
+    @* دکمهٔ همبرگری فقط وقتی Drawer بسته است *@
     @if (!DrawerOpen)
     {
         <MudIconButton Icon="@Icons.Material.Filled.Menu"
@@ -15,15 +15,10 @@
                        OnClick="ToggleDrawer" />
     }
 
-    <MudBadge Content="33"
-              Color="Color.Info"
-              Class="mx-1"
-              BadgeClass="badge-small">
-        <MudIconButton Icon="@Icons.Material.Filled.Notifications"
-                       Color="Color.Info"
-                       DisableRipple="true"
-                       OnClick="ShowNotifications" />
-    </MudBadge>
+    <MudBadge Content="3" Color="Color.Error" Overlap="true" Class="mx-6 my-4">
+            <MudIcon Icon="@Icons.Material.Filled.Notifications" Color="Color.Info" />
+        </MudBadge>
+
 
     <MudIconButton Icon="@Icons.Material.Filled.BarChart"
                    Color="Color.Info"
@@ -53,7 +48,7 @@
                    OnClick="ShowSettings" />
 
     <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Info">
-        <MudMenuItem Icon="@Icons.Material.Filled.Person"    OnClick="GoProfile">Profile</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Filled.Person" OnClick="GoProfile">Profile</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Filled.ExitToApp" OnClick="Logout">Logout</MudMenuItem>
     </MudMenu>
 </MudAppBar>
@@ -61,13 +56,7 @@
 @code {
     [Inject] NavigationManager Nav { get; set; }
 
-    /// <summary>
-    /// Indicates whether the drawer is currently open.
-    /// </summary>
     [Parameter] public bool DrawerOpen { get; set; }
-    /// <summary>
-    /// Toggling callback from the parent layout.
-    /// </summary>
     [Parameter] public EventCallback ToggleDrawer { get; set; }
 
     [Parameter] public bool IsDarkMode { get; set; }
@@ -76,8 +65,8 @@
     private string _search;
 
     void ShowNotifications() => Nav.NavigateTo("/notifications");
-    void ShowCharts()        => Nav.NavigateTo("/charts");
-    void ShowSettings()      => Nav.NavigateTo("/settings");
-    void GoProfile()         => Nav.NavigateTo("/profile");
-    void Logout()            => Nav.NavigateTo("/login", true);
+    void ShowCharts() => Nav.NavigateTo("/charts");
+    void ShowSettings() => Nav.NavigateTo("/settings");
+    void GoProfile() => Nav.NavigateTo("/profile");
+    void Logout() => Nav.NavigateTo("/login", true);
 }

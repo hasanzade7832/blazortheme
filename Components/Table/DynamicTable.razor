@@ -1,0 +1,184 @@
+﻿
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-6">
+
+    <MudPaper Elevation="2" Class="pa-4">
+        <MudTable Items="@TopRegions"
+                  Hover="true"
+                  Dense="true"
+                  Bordered="true"
+                  Elevation="0"
+                  Class="tree-table">
+
+            <!-- هِدرِ واحد -->
+            <HeaderContent>
+                <MudTh>نام</MudTh>
+                <MudTh>آب‌وهوا</MudTh>
+                <MudTh>جمعیت</MudTh>
+                <MudTh>دین</MudTh>
+                <MudTh>مذهب</MudTh>
+            </HeaderContent>
+
+            <!-- سطح ۰ : کشور -->
+            <RowTemplate Context="country">
+                <MudTd>
+                    @if (country.SubRegions?.Any() == true)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.ExpandMore"
+                                       Size="Size.Small"
+                                       OnClick="@(() => ToggleExpand(country))"
+                                       Class="@(!Expanded.Contains(country) ? "rotate-270" : "")" />
+                    }
+                    @country.Name
+                </MudTd>
+                <MudTd>@country.Weather</MudTd>
+                <MudTd>@country.Population.ToString("N0")</MudTd>
+                <MudTd>@country.Religion</MudTd>
+                <MudTd>@country.Sect</MudTd>
+            </RowTemplate>
+
+            <!-- فرزندان کشور (سطح ۱) -->
+            <ChildRowContent Context="countryCtx">
+                @if (Expanded.Contains(countryCtx))
+                {
+                    @foreach (var city in countryCtx.SubRegions)
+                    {
+                        <MudTr Class="level-1">
+                            <MudTd>
+                                @if (city.SubRegions?.Any() == true)
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.ExpandMore"
+                                                   Size="Size.Small"
+                                                   OnClick="@(() => ToggleExpand(city))"
+                                                   Class="@(!Expanded.Contains(city) ? "rotate-270" : "")" />
+                                }
+                                @city.Name
+                            </MudTd>
+                            <MudTd>@city.Weather</MudTd>
+                            <MudTd>@city.Population.ToString("N0")</MudTd>
+                            <MudTd>@city.Religion</MudTd>
+                            <MudTd>@city.Sect</MudTd>
+                        </MudTr>
+
+                        <!-- فرزندان شهر (سطح ۲) -->
+                        @if (Expanded.Contains(city))
+                        {
+                            @foreach (var town in city.SubRegions)
+                            {
+                                <MudTr Class="level-2">
+                                    <MudTd>
+                                        @if (town.SubRegions?.Any() == true)
+                                        {
+                                            <MudIconButton Icon="@Icons.Material.Filled.ExpandMore"
+                                                           Size="Size.Small"
+                                                           OnClick="@(() => ToggleExpand(town))"
+                                                           Class="@(!Expanded.Contains(town) ? "rotate-270" : "")" />
+                                        }
+                                        @town.Name
+                                    </MudTd>
+                                    <MudTd>@town.Weather</MudTd>
+                                    <MudTd>@town.Population.ToString("N0")</MudTd>
+                                    <MudTd>@town.Religion</MudTd>
+                                    <MudTd>@town.Sect</MudTd>
+                                </MudTr>
+
+                                <!-- زیرمجموعه‌های دماوند (سطح ۳) -->
+                                @if (Expanded.Contains(town))
+                                {
+                                    @foreach (var village in town.SubRegions)
+                                    {
+                                        <MudTr Class="level-3">
+                                            <MudTd>@village.Name</MudTd>
+                                            <MudTd>@village.Weather</MudTd>
+                                            <MudTd>@village.Population.ToString("N0")</MudTd>
+                                            <MudTd>@village.Religion</MudTd>
+                                            <MudTd>@village.Sect</MudTd>
+                                        </MudTr>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            </ChildRowContent>
+
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    /* -------- مدل -------- */
+    public class Region
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Weather { get; set; } = string.Empty;
+        public int Population { get; set; }
+        public string Religion { get; set; } = string.Empty;
+        public string Sect { get; set; } = string.Empty;
+        public List<Region>? SubRegions { get; set; } = new();
+    }
+
+    /* -------- دادهٔ نمونه با ۵ زیرمجموعه برای دماوند -------- */
+    private readonly List<Region> TopRegions = new()
+    {
+        new Region
+        {
+            Name="ایران", Weather="چهارفصل", Population=85000000, Religion="اسلام", Sect="شیعه",
+            SubRegions = new()
+            {
+                new Region
+                {
+                    Name="تهران", Weather="معتدل", Population=9000000, Religion="اسلام", Sect="شیعه",
+                    SubRegions = new()
+                    {
+                        new Region
+                        {
+                            Name="دماوند", Weather="سرد", Population=125000, Religion="اسلام", Sect="شیعه",
+                            /* پنج شهرک زیر دماوند */
+                            SubRegions = new()
+                            {
+                                new Region { Name="دماوند 1-1", Weather="سرد", Population=10000, Religion="اسلام", Sect="شیعه" },
+                                new Region { Name="دماوند 1-2", Weather="سرد", Population=9500,  Religion="اسلام", Sect="شیعه" },
+                                new Region { Name="دماوند 1-3", Weather="سرد", Population=8700,  Religion="اسلام", Sect="شیعه" },
+                                new Region { Name="دماوند 1-4", Weather="سرد", Population=7600,  Religion="اسلام", Sect="شیعه" },
+                                new Region { Name="دماوند 1-5", Weather="سرد", Population=6500,  Religion="اسلام", Sect="شیعه" }
+                            }
+                        },
+                        new Region { Name="فیروزکوه", Weather="سرد", Population=33000, Religion="اسلام", Sect="شیعه" },
+                        new Region { Name="اسلام‌شهر", Weather="معتدل", Population=450000, Religion="اسلام", Sect="شیعه" }
+                    }
+                },
+                new Region { Name="مشهد", Weather="خشک", Population=3200000, Religion="اسلام", Sect="شیعه" },
+                new Region { Name="اصفهان", Weather="خشک", Population=2000000, Religion="اسلام", Sect="شیعه" }
+            }
+        },
+        new Region
+        {
+            Name="ایالات متحده", Weather="متنوع", Population=331000000, Religion="مسیحیت", Sect="پروتستان",
+            SubRegions = new()
+            {
+                new Region { Name="نیویورک", Weather="مرطوب", Population=8400000, Religion="مسیحیت", Sect="پروتستان" },
+                new Region { Name="لس‌آنجلس", Weather="معتدل", Population=4000000, Religion="مسیحیت", Sect="کاتولیک" },
+                new Region { Name="شیکاگو", Weather="سرد", Population=2700000, Religion="مسیحیت", Sect="پروتستان" }
+            }
+        },
+        new Region
+        {
+            Name="ژاپن", Weather="معتدل", Population=125000000, Religion="شینتو/بودایی", Sect="-",
+            SubRegions = new()
+            {
+                new Region { Name="توکیو", Weather="مرطوب", Population=14000000, Religion="شینتو/بودایی", Sect="-" },
+                new Region { Name="اوساکا", Weather="مرطوب", Population=2700000, Religion="شینتو/بودایی", Sect="-" },
+                new Region { Name="کیوتو", Weather="معتدل", Population=1500000, Religion="شینتو/بودایی", Sect="-" }
+            }
+        }
+    };
+
+    /* -------- مدیریت Expand/Collapse -------- */
+    private readonly HashSet<Region> Expanded = new();
+    private void ToggleExpand(Region r)
+    {
+        if (!Expanded.Add(r))
+            Expanded.Remove(r);
+    }
+}

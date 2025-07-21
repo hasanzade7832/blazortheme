@@ -1,0 +1,35 @@
+﻿@namespace BlazorApp3.Components.Dashboard
+@using MudBlazor
+
+<!--
+ Elevation=1  → سایهٔ پایه (قابل رؤیت)
+ Hover="true" → تنها سایه را عمیق‌تر می‌کند؛ رنگ پس‌زمینه تغییری نمی‌کند
+ DisableRipple → حذف موج (ripple) برای ظاهری تمیز
+-->
+<MudPaper Class="widget-card d-flex flex-column align-center"
+          Elevation="1"
+          Hover="true"
+          DisableRipple="true">
+
+    <MudIcon Icon="@Icon" Size="Size.Medium" Class="mb-1" />
+    <MudText Typo="Typo.subtitle2" Align="Align.Center">@Title</MudText>
+
+    <MudStack Row="true" Spacing="1" Class="mt-1">
+        <MudChip T="int" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Dense="true"
+                 Value="@OpenCount">
+            @OpenCount
+        </MudChip>
+        <MudChip T="int" Variant="Variant.Outlined" Color="Color.Success" Size="Size.Small" Dense="true"
+                 Value="@DoneCount">
+            @DoneCount
+        </MudChip>
+    </MudStack>
+
+</MudPaper>
+
+@code {
+    [Parameter] public string Title      { get; set; } = string.Empty;
+    [Parameter] public string Icon       { get; set; } = Icons.Material.Filled.Info;
+    [Parameter] public int    OpenCount  { get; set; }
+    [Parameter] public int    DoneCount  { get; set; }
+}

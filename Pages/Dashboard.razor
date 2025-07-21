@@ -1,0 +1,55 @@
+﻿@page "/dashboard"
+@using BlazorApp3.Components.Dashboard
+@using MudBlazor
+
+<PageTitle>Dashboard</PageTitle>
+
+<MudContainer DisableMaxWidth="true" Class="dashboard-root d-flex gap-6 pa-6">
+
+    <!-- سایدبار -->
+    <Sidebar />
+
+    <!-- باکس ویجت‌ها -->
+    <MudPaper Class="widget-box flex-grow-1 pa-4"
+              Elevation="1"
+              Hover="true">
+
+        <MudGrid Gutter="GutterSize.Medium" Justify="Justify.Center">
+
+            <!-- ردیف ۱ -->
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Alert" Icon="@Icons.Material.Filled.NotificationsNone"
+                            OpenCount="74" DoneCount="25" />
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Follow Ups" Icon="@Icons.Material.Filled.HowToReg"
+                            OpenCount="6" DoneCount="3" />
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Comments" Icon="@Icons.Material.Filled.ChatBubbleOutline"
+                            OpenCount="12" DoneCount="5" />
+            </MudItem>
+
+            <!-- ردیف ۲ -->
+            <MudItem xs="12">
+                <WidgetCard Title="Tasks" Icon="@Icons.Material.Filled.ListAlt"
+                            OpenCount="417" DoneCount="5" />
+            </MudItem>
+
+            <!-- ردیف ۳ -->
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Meetings" Icon="@Icons.Material.Filled.Groups"
+                            OpenCount="8" DoneCount="0" />
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Issues" Icon="@Icons.Material.Filled.BugReport"
+                            OpenCount="256" DoneCount="1" />
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4" xl="4">
+                <WidgetCard Title="Letters" Icon="@Icons.Material.Filled.MailOutline"
+                            OpenCount="4" DoneCount="0" />
+            </MudItem>
+
+        </MudGrid>
+    </MudPaper>
+</MudContainer>
